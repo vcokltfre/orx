@@ -25,7 +25,7 @@ class ClientProto(Protocol):
         route: RouteProto,
         query_params: dict[str, str | int] = None,
         headers: dict[str, str] = None,
-        max_retries: int = 3,
+        max_retries: int = None,
         files: list[File] = None,
         json: JSON | Unset = UNSET,
         **kwargs,
