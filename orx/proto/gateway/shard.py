@@ -1,3 +1,4 @@
+from asyncio import Event
 from typing import Awaitable, Callable, Protocol, Type
 
 from orx.proto.http import ClientProto
@@ -10,6 +11,7 @@ class ShardProto(Protocol):
     id: int
     latency: float | None
     callbacks: dict[str, list[Callable[..., Awaitable[None]]]]
+    ready: Event
 
     def __init__(
         self,

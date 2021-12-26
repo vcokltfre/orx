@@ -109,11 +109,11 @@ class HTTPClient:
 
                     data.add_field(f"file_{i}", file.fp, filename=file.filename)
 
-                if json is not Unset:
+                if json is not UNSET:
                     data.add_field("payload_json", dumps(json), content_type="application/json")
 
                 kwargs["data"] = data
-            elif json is not Unset:
+            elif json is not UNSET:
                 kwargs["json"] = json
 
             bucket = await self.ratelimiter.acquire(route.bucket)

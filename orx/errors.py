@@ -55,3 +55,14 @@ class ServiceUnavailable(ServerError):
 
 class GatewayTimeout(ServerError):
     pass
+
+
+class GatewayReconnect(OrxError):
+    pass
+
+
+class GatewayCriticalError(OrxError):
+    def __init__(self, code: int) -> None:
+        self.code = code
+
+        super().__init__(f"Gateway disconnected with close code {code}")
