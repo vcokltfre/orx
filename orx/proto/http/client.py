@@ -1,6 +1,6 @@
 from typing import Protocol
 
-from aiohttp import ClientResponse
+from aiohttp import ClientResponse, ClientWebSocketResponse
 
 from orx.src.http.file import File
 from orx.utils import JSON, UNSET, Unset
@@ -18,6 +18,9 @@ class ClientProto(Protocol):
         max_retries: int = 3,
         ratelimiter: RatelimiterProto = None,
     ) -> None:
+        ...
+
+    async def ws_connect(self, url: str, **kwargs) -> ClientWebSocketResponse:
         ...
 
     async def request(

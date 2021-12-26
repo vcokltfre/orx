@@ -3,7 +3,7 @@ from collections import defaultdict
 from json import dumps  # TODO: replace with util
 from typing import Mapping, Type
 
-from aiohttp import ClientResponse, ClientSession, FormData
+from aiohttp import ClientResponse, ClientSession, ClientWebSocketResponse, FormData
 from loguru import logger
 
 from orx import __version__ as VERSION
@@ -72,6 +72,9 @@ class HTTPClient:
             self.__session = ClientSession(headers=self.default_headers)
 
         return self.__session
+
+    async def ws_connect(self, url: str, **kwargs) -> ClientWebSocketResponse:
+        return await self._session.ws_connect(url, **kwargs)
 
     async def request(
         self,
