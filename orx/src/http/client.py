@@ -155,6 +155,8 @@ class HTTPClient:
                     logger.error(
                         f"Error while making request on route {route.method} {route.url}: [{response.status}] {detail}"
                     )
-                    raise self._status_codes[response.status](response)
+
+                    if response.status < 500:
+                        raise self._status_codes[response.status](response)
 
         raise OrxError(f"Failed to make request on route {route.method} {route.url} after {max_retries} attempts")
