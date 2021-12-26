@@ -9,7 +9,7 @@ from .ratelimiter import GatewayRatelimiterProto
 class ShardProto(Protocol):
     id: int
     latency: float | None
-    callbacks: list[Callable[..., Awaitable[None]]]
+    callbacks: dict[str, list[Callable[..., Awaitable[None]]]]
 
     def __init__(
         self,
