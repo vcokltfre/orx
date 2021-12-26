@@ -15,8 +15,8 @@ class GatewayClient:
         token: str,
         intents: int,
         http: ClientProto,
-        ratelimiter_cls: Type[GatewayRatelimiterProto] = GatewayRatelimiter,
-        shard_cls: Type[ShardProto] = Shard,
+        ratelimiter_cls: Type[GatewayRatelimiterProto] = None,
+        shard_cls: Type[ShardProto] = None,
         shard_ids: list[int] = None,
         shard_count: int = None,
     ) -> None:
@@ -34,8 +34,8 @@ class GatewayClient:
         self._intents = intents
         self._http = http
 
-        self._ratelimiter_cls = ratelimiter_cls
-        self._shard_cls = shard_cls
+        self._ratelimiter_cls = ratelimiter_cls or GatewayRatelimiter
+        self._shard_cls = shard_cls or Shard
 
     def add_dispatch_hook(self, event: str, hook: Callable[..., Awaitable[None]]) -> None:
         if event not in self._hooks:
