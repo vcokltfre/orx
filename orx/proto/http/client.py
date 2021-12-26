@@ -1,4 +1,4 @@
-from typing import Any, Protocol, TYPE_CHECKING
+from typing import TYPE_CHECKING, Any, Protocol
 
 from aiohttp import ClientResponse, ClientWebSocketResponse
 
