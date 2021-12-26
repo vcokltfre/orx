@@ -7,7 +7,7 @@ from .shard import ShardProto
 
 
 class GatewayClientProto(Protocol):
-    shards: list[ShardProto]
+    shards: dict[int, ShardProto]
 
     def __init__(
         self,
