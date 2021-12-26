@@ -89,3 +89,7 @@ class GatewayClient:
         fut = Future()
 
         await fut
+
+    async def close(self) -> None:
+        for shard in self.shards.values():
+            await shard.close()
