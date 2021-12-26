@@ -16,6 +16,8 @@ class GatewayClientProto(Protocol):
         http: ClientProto,
         ratelimiter_cls: Type[GatewayRatelimiterProto],
         shard_cls: Type[ShardProto],
+        shard_ids: list[int] = None,
+        shard_count: int = None,
     ) -> None:
         ...
 
