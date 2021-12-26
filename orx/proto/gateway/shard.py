@@ -14,6 +14,7 @@ class ShardProto(Protocol):
     def __init__(
         self,
         id: int,
+        shard_count: int,
         http: ClientProto,
         token: str,
         intents: int,
