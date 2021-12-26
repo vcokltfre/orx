@@ -15,7 +15,7 @@ from .errors import (
     Unauthorized,
     UnprocessableEntity,
 )
-from .src.client import OrxClient, Options
+from .src.client import Options, OrxClient
 
 __all__ = (
     "BadGateway",
