@@ -15,6 +15,7 @@ from orx.errors import (
     HTTPError,
     MethodNotAllowed,
     NotFound,
+    OrxError,
     ServerError,
     ServiceUnavailable,
     TooManyRequests,
@@ -156,4 +157,4 @@ class HTTPClient:
                     )
                     raise self._status_codes[response.status](response)
 
-        raise
+        raise OrxError(f"Failed to make request on route {route.method} {route.url} after {max_retries} attempts")
