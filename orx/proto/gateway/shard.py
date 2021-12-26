@@ -28,5 +28,5 @@ class ShardProto(Protocol):
     async def close(self) -> None:
         ...
 
-    async def send(self, data: JSON) -> None:
+    async def send(self, data: dict[str, JSON]) -> None:
         ...
