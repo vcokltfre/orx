@@ -1,7 +1,11 @@
-from typing import Literal, Optional
+from typing import Optional
 
 
 class Route:
+    """
+    Represents a route to a Discord API route/path, with an HTTP verb.
+    """
+
     def __init__(self, method: str, path: str, **params) -> None:
         guild_id: Optional[int] = params.get("guild_id")
         channel_id: Optional[int] = params.get("channel_id")

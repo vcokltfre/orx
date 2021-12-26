@@ -18,6 +18,13 @@ class User(StatefulObject):
     )
 
     def __init__(self, state: ConnectionState, data: dict) -> None:
+        """A representation of a Discord user. This should not be constructed manually.
+
+        Args:
+            state (ConnectionState): The connection state.
+            data (dict): The data to construct the user from.
+        """
+
         super().__init__(data["id"], state)
 
         self.username: str = data["username"]
@@ -48,9 +55,21 @@ class User(StatefulObject):
         return cls(state, await response.json())
 
     async def leave_guild(self, guild: Object) -> None:
+        """Leave a guild.
+
+        Args:
+            guild (Object): The guild to leave.
+        """
+
         await self.state.http.request(Route("DELETE", f"/users/@me/guilds/{guild.id}"))
 
     async def create_dm(self, user: Object) -> None:
+        """Create a direct message channel with a user.
+
+        Args:
+            user (Object): The user to create a DM with.
+        """
+
         response = await self.state.http.request(Route("POST", f"/users/@me/channels"), json={"recipient_id": user.id})
 
         # TODO: return the CM channel
