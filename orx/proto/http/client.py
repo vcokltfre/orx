@@ -1,12 +1,16 @@
-from typing import Protocol
+from typing import Any, Protocol, TYPE_CHECKING
 
 from aiohttp import ClientResponse, ClientWebSocketResponse
 
-from orx.src.http.file import File
 from orx.utils import JSON, UNSET, Unset
 
 from .ratelimiter import RatelimiterProto
 from .route import RouteProto
+
+if TYPE_CHECKING:
+    from orx.src.http.file import File
+else:
+    File = Any
 
 
 class ClientProto(Protocol):
