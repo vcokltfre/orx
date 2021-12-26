@@ -1,4 +1,4 @@
-from asyncio import Task, sleep, create_task, Event
+from asyncio import Event, Task, create_task, sleep
 from random import randrange
 from sys import platform
 from time import time
@@ -6,16 +6,15 @@ from typing import Awaitable, Callable, Type
 
 from aiohttp import ClientWebSocketResponse, WSMessage, WSMsgType
 
-from orx.errors import GatewayReconnect, GatewayCriticalError
+from orx.errors import GatewayCriticalError, GatewayReconnect
 from orx.proto.gateway import GatewayRatelimiterProto
 from orx.proto.http import ClientProto
 from orx.src.http import Route
 from orx.utils import JSON
 
-from .enums import GatewayOps, GatewayCloseCodes
-from .event import GatewayEvent, EventDirection
+from .enums import GatewayCloseCodes, GatewayOps
+from .event import EventDirection, GatewayEvent
 from .ratelimiter import GatewayRatelimiter
-
 
 CRITICAL = [
     GatewayCloseCodes.NOT_AUTHENTICATED,
@@ -132,19 +131,21 @@ class Shard:
             create_task(callback(event))
 
     async def _identify(self) -> None:
-        await self.send({
-            "op": GatewayOps.IDENTIFY,
-            "d": {
-                "token": self._token,
-                "properties": {
-                    "$os": platform,
-                    "$browser": "Orx",
-                    "$device": "Orx",
+        await self.send(
+            {
+                "op": GatewayOps.IDENTIFY,
+                "d": {
+                    "token": self._token,
+                    "properties": {
+                        "$os": platform,
+                        "$browser": "Orx",
+                        "$device": "Orx",
+                    },
+                    "intents": self._intents,
+                    "shard": [self.id, self._count],
                 },
-                "intents": self._intents,
-                "shard": [self.id, self._count],
-            },
-        })
+            }
+        )
 
     async def _resume(self) -> None:
         await self.send(

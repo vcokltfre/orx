@@ -96,9 +96,8 @@ class HTTPClient:
             await sleep(attempt ** 2 * 0.5)
 
             logger.debug(
-                f"[Attempt {attempt} of {max_retries}] Making request on route {route.method} {route.url}" + (f": {json}"
-                if json is not UNSET
-                else "")
+                f"[Attempt {attempt} of {max_retries}] Making request on route {route.method} {route.url}"
+                + (f": {json}" if json is not UNSET else "")
             )
 
             if files:

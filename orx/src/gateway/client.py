@@ -1,8 +1,8 @@
-from asyncio import sleep, create_task, Future, wait_for, TimeoutError
+from asyncio import Future, TimeoutError, create_task, sleep, wait_for
 from typing import Awaitable, Callable, Type
 
-from orx.proto.http import ClientProto
 from orx.proto.gateway import GatewayRatelimiterProto, ShardProto
+from orx.proto.http import ClientProto
 from orx.src.http import Route
 
 from .ratelimiter import GatewayRatelimiter
