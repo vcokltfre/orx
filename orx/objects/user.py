@@ -2,12 +2,20 @@ from orx.src.http import Route
 from orx.utils import UNSET, Unset
 
 from .asset import Asset
-from .object import StatefulObject, Object
+from .object import Object, StatefulObject
 from .state import ConnectionState
 
 
 class User(StatefulObject):
-    __smart_repr__ = ("id", "username", "discriminator", "avatar", "bot", "verified", "banner",)
+    __smart_repr__ = (
+        "id",
+        "username",
+        "discriminator",
+        "avatar",
+        "bot",
+        "verified",
+        "banner",
+    )
 
     def __init__(self, state: ConnectionState, data: dict) -> None:
         super().__init__(data["id"], state)
