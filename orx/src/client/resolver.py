@@ -1,0 +1,2 @@
+class Resolver:
+    pass
