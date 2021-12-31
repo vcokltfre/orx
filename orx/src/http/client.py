@@ -6,7 +6,6 @@ from typing import Mapping, Type
 from aiohttp import ClientResponse, ClientSession, ClientWebSocketResponse, FormData
 from loguru import logger
 
-from ...version import VERSION
 from orx.errors import (
     BadGateway,
     BadRequest,
@@ -25,6 +24,7 @@ from orx.errors import (
 from orx.proto.http import RatelimiterProto, RouteProto
 from orx.utils import JSON, UNSET, Unset
 
+from ...version import VERSION
 from .file import File
 from .ratelimiter import Ratelimiter
 
