@@ -6,6 +6,7 @@ from orx.objects.state import ConnectionState
 from orx.objects.user import User
 
 from .options import Options
+from .resolver import Resolver
 
 logger.configure(handlers=[{"sink": stdout, "level": "INFO"}])
 
@@ -31,6 +32,8 @@ class OrxClient:
 
         options = options or Options()
 
+        self.resolver = Resolver()
+
         self._http = options.http_cls(
             token,
             options.api_url,
@@ -48,7 +51,7 @@ class OrxClient:
             shard_count,
         )
 
-        self._state = ConnectionState(self._http, self._gateway)
+        self._state = ConnectionState(self._http, self.resolver, self._gateway)
 
     def on(self, event: str):
         """Listen for an event from the gateway.

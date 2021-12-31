@@ -1,9 +1,16 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from orx.src.http import Route
 from orx.utils import UNSET, Unset
 
 from .asset import Asset
 from .object import Object, StatefulObject
 from .state import ConnectionState
+
+if TYPE_CHECKING:
+    from orx.objects import DMChannel
 
 
 class User(StatefulObject):
@@ -63,7 +70,7 @@ class User(StatefulObject):
 
         await self.state.http.request(Route("DELETE", f"/users/@me/guilds/{guild.id}"))
 
-    async def create_dm(self, user: Object) -> None:
+    async def create_dm(self, user: Object) -> DMChannel:
         """Create a direct message channel with a user.
 
         Args:
@@ -71,5 +78,6 @@ class User(StatefulObject):
         """
 
         response = await self.state.http.request(Route("POST", f"/users/@me/channels"), json={"recipient_id": user.id})
+        data = await response.json()
 
-        # TODO: return the CM channel
+        return self.state.resolver.dm_channel(self.state, data)
