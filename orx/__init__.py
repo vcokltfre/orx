@@ -16,6 +16,7 @@ from .errors import (
     UnprocessableEntity,
 )
 from .src.client import Options, OrxClient
+from .version import VERSION
 
 __all__ = (
     "BadGateway",
@@ -37,7 +38,7 @@ __all__ = (
     "Options",
 )
 
-__version__ = "1.0.0"
+__version__ = VERSION
 __author__ = "vcokltfre"
 __license__ = "MIT"
 __copyright__ = "Copyright (c) 2021 vcokltfre"

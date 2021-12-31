@@ -6,7 +6,7 @@ from typing import Mapping, Type
 from aiohttp import ClientResponse, ClientSession, ClientWebSocketResponse, FormData
 from loguru import logger
 
-from orx import __version__ as VERSION
+from ...version import VERSION
 from orx.errors import (
     BadGateway,
     BadRequest,
