@@ -18,6 +18,7 @@ class Options:
         http_ratelimiter: RatelimiterProto = None,
         gateway_ratelimiter: Type[GatewayRatelimiterProto] = None,
         shard_cls: Type[ShardProto] = None,
+        dispatch_raw_events: bool = False,
     ) -> None:
         self.http_cls = http_cls or HTTPClient
         self.gateway_cls = gateway_cls or GatewayClient
@@ -27,3 +28,4 @@ class Options:
         self.http_ratelimiter = http_ratelimiter
         self.gateway_ratelimiter = gateway_ratelimiter
         self.shard_cls = shard_cls
+        self.dispatch_raw_events = dispatch_raw_events
