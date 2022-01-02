@@ -1,4 +1,5 @@
 from sys import stdout
+from typing import Type
 
 from loguru import logger
 
@@ -7,6 +8,7 @@ from orx.objects.user import User
 
 from .options import Options
 from .resolver import Resolver
+from .struct import Cog
 
 logger.configure(handlers=[{"sink": stdout, "level": "INFO"}])
 
@@ -51,6 +53,7 @@ class OrxClient:
             shard_count,
         )
 
+        self._cogs: set[Cog] = set()
         self._state = ConnectionState(self._http, self.resolver, self._gateway)
 
     def on(self, event: str):
@@ -68,10 +71,16 @@ class OrxClient:
 
         return decorator
 
+    def add_cog(self, cog: Type[Cog], *args, **kwargs) -> None:
+        self._cogs.add(cog(self, *args, **kwargs))
+
     async def start(self) -> None:
         """
         Start the client connecting to the gateway.
         """
+
+        for cog in self._cogs:
+            await cog.__load__()
 
         await self._gateway.start()
 
