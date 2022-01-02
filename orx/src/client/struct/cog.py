@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 from typing import TYPE_CHECKING, Awaitable, Callable
 
 if TYPE_CHECKING:
@@ -16,7 +17,7 @@ class Cog:
         for attr in dir(self):
             _attr = getattr(self, attr)
 
-            if (ls := getattr(_attr, "__listener__", None)):
+            if ls := getattr(_attr, "__listener__", None):
                 self._client.on(ls)(_attr)
 
     @staticmethod
@@ -24,6 +25,7 @@ class Cog:
         def deco(func: Callback) -> Callback:
             func.__listener__ = event or func.__name__.removeprefix("on_")
             return func
+
         return deco
 
     def __repr__(self) -> str:
