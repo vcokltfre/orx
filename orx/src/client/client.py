@@ -71,7 +71,10 @@ class OrxClient:
 
         return decorator
 
-    def add_cog(self, cog: Type[Cog], *args, **kwargs) -> None:
+    def add_cog(self, cog: Type[Cog] | Cog, *args, **kwargs) -> None:
+        if isinstance(cog, Cog):
+            self._cogs.add(cog)
+            return
         self._cogs.add(cog(self, *args, **kwargs))
 
     async def start(self) -> None:

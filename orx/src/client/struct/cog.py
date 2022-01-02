@@ -7,12 +7,6 @@ if TYPE_CHECKING:
 
 Callback = Callable[..., Awaitable[None]]
 
-def listener(event: str = None) -> Callable[[Callback], Callback]:
-    def deco(func: Callback) -> Callback:
-        func.__listener__ = event or func.__name__.removeprefix("on_")
-        return func
-    return deco
-
 
 class Cog:
     def __init__(self, client: OrxClient, *, name: str = None) -> None:
@@ -24,6 +18,13 @@ class Cog:
 
             if (ls := getattr(_attr, "__listener__", None)):
                 self._client.on(ls)(_attr)
+
+    @staticmethod
+    def listener(event: str = None) -> Callable[[Callback], Callback]:
+        def deco(func: Callback) -> Callback:
+            func.__listener__ = event or func.__name__.removeprefix("on_")
+            return func
+        return deco
 
     def __repr__(self) -> str:
         return f"<{self.__class__.__qualname__} name={self.name}>"
