@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from enum import Enum, auto
 
 from orx.proto.gateway import ShardProto
-from orx.utils import JSON, UNSET, Unset
+from orx.utils import JSON, UNSET, UnsetOr
 
 
 class EventDirection(Enum):
@@ -16,7 +16,7 @@ class GatewayEvent:
     direction: EventDirection
     raw: dict[str, JSON]
     op: int
-    d: JSON | Unset = UNSET
+    d: UnsetOr[JSON] = UNSET
     s: int | None = None
     t: str | None = None
 

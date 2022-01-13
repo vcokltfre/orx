@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from orx.utils import UNSET, OptionalUnsetOr, Unset, UnsetOr, filter_unset
+from orx.utils import UNSET, OptionalUnsetOr, UnsetOr, filter_unset
 
 
 class EmbedField:
@@ -38,7 +38,7 @@ class Embed:
 
         self.type: str | None = None
 
-    def add_field(self, name: str, value: str, inline: bool | Unset = UNSET) -> "Embed":
+    def add_field(self, name: str, value: str, inline: UnsetOr[bool] = UNSET) -> "Embed":
         self.fields.append(EmbedField(name, value, inline))
         return self
 

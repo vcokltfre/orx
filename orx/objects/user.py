@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from orx.src.http import Route
-from orx.utils import UNSET, Unset
+from orx.utils import UNSET, UnsetOr
 
 from .asset import Asset
 from .object import Object, StatefulObject
@@ -38,7 +38,7 @@ class User(StatefulObject):
         self.discriminator: str = data["discriminator"]
         self.bot: bool = data.get("bot", False)
         self.system: bool = data.get("system", False)
-        self.mfa_enabled: bool | Unset = data.get("mfa_enabled", UNSET)
+        self.mfa_enabled: UnsetOr[bool] = data.get("mfa_enabled", UNSET)
         self.accent_color: int | None = data.get("accent_color", None)
         self.locale: str | None = data.get("locale", None)
         self.verified: bool = data.get("verified", False)
