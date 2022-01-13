@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING, Any, Protocol
 
 from aiohttp import ClientResponse, ClientWebSocketResponse
 
-from orx.utils import JSON, UNSET, Unset
+from orx.utils import JSON, UNSET, UnsetOr
 
 from .ratelimiter import RatelimiterProto
 from .route import RouteProto
@@ -33,8 +33,8 @@ class ClientProto(Protocol):
         query_params: dict[str, str | int] = None,
         headers: dict[str, str] = None,
         max_retries: int = None,
-        files: list[File] = None,
-        json: JSON | Unset = UNSET,
+        files: UnsetOr[list[File]] = UNSET,
+        json: UnsetOr[JSON] = UNSET,
         **kwargs,
     ) -> ClientResponse:
         ...

@@ -22,7 +22,7 @@ from orx.errors import (
     UnprocessableEntity,
 )
 from orx.proto.http import RatelimiterProto, RouteProto
-from orx.utils import JSON, UNSET, Unset
+from orx.utils import JSON, UNSET, Unset, UnsetOr
 
 from ...version import VERSION
 from .file import File
@@ -82,8 +82,8 @@ class HTTPClient:
         query_params: dict[str, str | int] = None,
         headers: dict[str, str] = None,
         max_retries: int = None,
-        files: list[File] = None,
-        json: JSON | Unset = UNSET,
+        files: UnsetOr[list[File]] = UNSET,
+        json: UnsetOr[JSON] = UNSET,
         **kwargs,
     ) -> ClientResponse:
         headers = headers or {}
