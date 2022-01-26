@@ -6,7 +6,7 @@ from orx.proto.gateway import GatewayClientProto
 from orx.proto.http import ClientProto
 
 if TYPE_CHECKING:
-    from orx.src.client import Resolver
+    from orx.impl.client import Resolver
 
 
 class ConnectionState:

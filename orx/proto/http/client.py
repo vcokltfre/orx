@@ -8,7 +8,7 @@ from .ratelimiter import RatelimiterProto
 from .route import RouteProto
 
 if TYPE_CHECKING:
-    from orx.src.http.file import File
+    from orx.impl.http.file import File
 else:
     File = Any
 

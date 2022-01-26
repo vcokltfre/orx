@@ -9,7 +9,7 @@ from aiohttp import ClientWebSocketResponse, WSMessage, WSMsgType
 from orx.errors import GatewayCriticalError, GatewayReconnect
 from orx.proto.gateway import GatewayRatelimiterProto
 from orx.proto.http import ClientProto
-from orx.src.http import Route
+from orx.impl.http import Route
 from orx.utils import JSON
 
 from .enums import GatewayCloseCodes, GatewayOps

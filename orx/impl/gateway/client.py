@@ -3,7 +3,7 @@ from typing import Awaitable, Callable, Type
 
 from orx.proto.gateway import GatewayRatelimiterProto, ShardProto
 from orx.proto.http import ClientProto
-from orx.src.http import Route
+from orx.impl.http import Route
 
 from .ratelimiter import GatewayRatelimiter
 from .shard import Shard

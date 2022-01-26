@@ -2,8 +2,8 @@ from typing import Type
 
 from orx.proto.gateway import GatewayClientProto, GatewayRatelimiterProto, ShardProto
 from orx.proto.http import ClientProto, RatelimiterProto
-from orx.src.gateway import GatewayClient
-from orx.src.http import HTTPClient
+from orx.impl.gateway import GatewayClient
+from orx.impl.http import HTTPClient
 
 
 class Options:

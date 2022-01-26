@@ -2,7 +2,7 @@
 # https://github.com/nextcord/nextcord/blob/master/nextcord/asset.py
 
 from orx.errors import OrxError
-from orx.src.http import Route
+from orx.impl.http import Route
 
 from .state import ConnectionState
 

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from orx.src.http import Route
+from orx.impl.http import Route
 from orx.utils import UNSET, UnsetOr
 
 from .asset import Asset

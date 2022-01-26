@@ -15,7 +15,7 @@ from .errors import (
     Unauthorized,
     UnprocessableEntity,
 )
-from .src.client import Cog, Options, OrxClient
+from .impl.client import Cog, Options, OrxClient
 from .version import VERSION
 
 __all__ = (
