@@ -29,6 +29,10 @@ class Object(SmartReprMixin):
 
 
 class StatefulObject(Object):
+    """
+    Representation of a Discord API object with a connection state.
+    """
+
     __smart_repr__ = (
         "id",
         "state",
