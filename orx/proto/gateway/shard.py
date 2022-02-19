@@ -1,5 +1,5 @@
 from asyncio import Event
-from typing import Awaitable, Callable, Protocol, Type
+from typing import Any, Callable, Coroutine, Protocol, Type
 
 from orx.proto.http import ClientProto
 from orx.utils import JSON
@@ -10,7 +10,7 @@ from .ratelimiter import GatewayRatelimiterProto
 class ShardProto(Protocol):
     id: int
     latency: float | None
-    callbacks: dict[str, list[Callable[..., Awaitable[None]]]]
+    callbacks: dict[str, list[Callable[..., Coroutine[Any, Any, None]]]]
     ready: Event
 
     def __init__(

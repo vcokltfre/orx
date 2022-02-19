@@ -2,14 +2,14 @@ from asyncio import Event, Task, create_task, sleep
 from random import randrange
 from sys import platform
 from time import time
-from typing import Awaitable, Callable, Type
+from typing import Any, Callable, Coroutine, Type
 
 from aiohttp import ClientWebSocketResponse, WSMessage, WSMsgType
 
 from orx.errors import GatewayCriticalError, GatewayReconnect
+from orx.impl.http import Route
 from orx.proto.gateway import GatewayRatelimiterProto
 from orx.proto.http import ClientProto
-from orx.impl.http import Route
 from orx.utils import JSON
 
 from .enums import GatewayCloseCodes, GatewayOps
@@ -42,7 +42,7 @@ class Shard:
         ratelimiter_cls: Type[GatewayRatelimiterProto] = GatewayRatelimiter,
     ) -> None:
         self.id = id
-        self.callbacks: dict[str, list[Callable[..., Awaitable[None]]]] = {}
+        self.callbacks: dict[str, list[Callable[..., Coroutine[Any, Any, None]]]] = {}
 
         self.ready = Event()
         self.ready.clear()

@@ -1,4 +1,4 @@
-from typing import Awaitable, Callable, Protocol, Type
+from typing import Any, Callable, Coroutine, Protocol, Type
 
 from orx.proto.http import ClientProto
 
@@ -21,7 +21,7 @@ class GatewayClientProto(Protocol):
     ) -> None:
         ...
 
-    def add_dispatch_hook(self, event: str, hook: Callable[..., Awaitable[None]]) -> None:
+    def add_dispatch_hook(self, event: str, hook: Callable[..., Coroutine[Any, Any, None]]) -> None:
         ...
 
     def get_shard(self, id: int) -> ShardProto:

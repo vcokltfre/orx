@@ -1,9 +1,9 @@
 from asyncio import Future, TimeoutError, create_task, sleep, wait_for
-from typing import Awaitable, Callable, Type
+from typing import Any, Callable, Coroutine, Type
 
+from orx.impl.http import Route
 from orx.proto.gateway import GatewayRatelimiterProto, ShardProto
 from orx.proto.http import ClientProto
-from orx.impl.http import Route
 
 from .ratelimiter import GatewayRatelimiter
 from .shard import Shard
@@ -28,7 +28,7 @@ class GatewayClient:
         if shard_ids and not shard_count:
             raise ValueError("shard_count must be set if shard_ids is set")
 
-        self._hooks: dict[str, list[Callable[..., Awaitable[None]]]] = {}
+        self._hooks: dict[str, list[Callable[..., Coroutine[Any, Any, None]]]] = {}
 
         self._token = token
         self._intents = intents
@@ -37,7 +37,7 @@ class GatewayClient:
         self._ratelimiter_cls = ratelimiter_cls or GatewayRatelimiter
         self._shard_cls = shard_cls or Shard
 
-    def add_dispatch_hook(self, event: str, hook: Callable[..., Awaitable[None]]) -> None:
+    def add_dispatch_hook(self, event: str, hook: Callable[..., Coroutine[Any, Any, None]]) -> None:
         if event not in self._hooks:
             self._hooks[event] = [hook]
             return

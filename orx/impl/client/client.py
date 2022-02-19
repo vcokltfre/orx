@@ -1,3 +1,4 @@
+from asyncio import run as _run
 from sys import stdout
 from typing import Type
 
@@ -76,6 +77,13 @@ class OrxClient:
             self._cogs.add(cog)
             return
         self._cogs.add(cog(self, *args, **kwargs))
+
+    def run(self) -> None:
+        """
+        Run the client.
+        """
+
+        _run(self.start())
 
     async def start(self) -> None:
         """
