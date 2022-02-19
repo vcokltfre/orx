@@ -147,7 +147,7 @@ class DMChannel(DiscordChannel, Messageable):
         super().__init__(state, data["id"])
 
         self.last_message_id: int | None = data.get("last_message_id", None)
-        self.recipient = state.resolver.user(state, data["recipients"][0])
+        self.recipient = state.resolver.User(state, data["recipients"][0])
 
 
 class TextChannel(DiscordChannel, Messageable):

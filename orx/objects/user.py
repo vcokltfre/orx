@@ -80,4 +80,4 @@ class User(StatefulObject):
         response = await self.state.http.request(Route("POST", f"/users/@me/channels"), json={"recipient_id": user.id})
         data = await response.json()
 
-        return self.state.resolver.dm_channel(self.state, data)
+        return self.state.resolver.DMChannel(self.state, data)
