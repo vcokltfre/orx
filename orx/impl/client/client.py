@@ -39,10 +39,10 @@ class OrxClient:
 
         self._http = options.http_cls(
             token,
-            options.api_url,
-            options.headers,
-            options.http_retries,
-            options.http_ratelimiter,
+            api_url=options.api_url,
+            default_headers=options.headers,
+            max_retries=options.http_retries,
+            ratelimiter=options.http_ratelimiter,
         )
         self._gateway = options.gateway_cls(
             token,

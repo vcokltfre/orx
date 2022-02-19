@@ -16,7 +16,8 @@ else:
 class ClientProto(Protocol):
     def __init__(
         self,
-        token: str,
+        token: str = None,
+        *,
         api_url: str,
         default_headers: dict[str, str] = None,
         max_retries: int = 3,

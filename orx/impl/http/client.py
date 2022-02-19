@@ -22,7 +22,7 @@ from orx.errors import (
     UnprocessableEntity,
 )
 from orx.proto.http import RatelimiterProto, RouteProto
-from orx.utils import JSON, UNSET, Unset, UnsetOr
+from orx.utils import JSON, UNSET, UnsetOr
 
 from ...version import VERSION
 from .file import File
@@ -49,7 +49,8 @@ class HTTPClient:
 
     def __init__(
         self,
-        token: str,
+        token: str = None,
+        *,
         api_url: str,
         default_headers: dict[str, str] = None,
         max_retries: int = 3,
@@ -61,7 +62,8 @@ class HTTPClient:
         self.max_retries = max_retries
         self.ratelimiter = ratelimiter or Ratelimiter()
 
-        self.default_headers["Authorization"] = f"Bot {self.token}"
+        if self.token:
+            self.default_headers["Authorization"] = f"Bot {self.token}"
         self.default_headers["User-Agent"] = f"DiscordBot (Orx {VERSION}), https://github.com/vcokltfre/Orx)"
 
         self.__session: ClientSession | None = None

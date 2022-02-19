@@ -39,7 +39,7 @@ __all__ = (
     "Options",
 )
 
-__version__ = VERSION
+__version__ = str(VERSION)
 __author__ = "vcokltfre"
 __license__ = "MIT"
 __copyright__ = "Copyright (c) 2021 vcokltfre"
