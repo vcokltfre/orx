@@ -1,13 +1,16 @@
 # orx
 
-A modern, async API wrapper for Discord
+A modern, async, lightweight Discord API wrapper.
 
 ## Key Features
 
 - Efficient and robust ratelimit handling
 - Consistently and accurately typed
-- Provides high-level abstractions for ease of use
 - Provides low-level access for customisability
+
+### What Orx is **not**
+
+- A high level wrapper for people who just want a simple API wrapper, for that use discord.py or a similar fork of it.
 
 ## Installing
 

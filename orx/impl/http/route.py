@@ -6,14 +6,28 @@ class Route:
     Represents a route to a Discord API route/path, with an HTTP verb.
     """
 
-    def __init__(self, method: str, path: str, **params) -> None:
-        guild_id: Optional[int] = params.get("guild_id")
-        channel_id: Optional[int] = params.get("channel_id")
-        webhook_id: Optional[int] = params.get("webhook_id")
-        webhook_token: Optional[str] = params.get("webhook_token")
+    __slots__ = (
+        "method",
+        "url",
+        "bucket",
+    )
 
+    def __init__(
+        self,
+        method: str,
+        path: str,
+        guild_id: Optional[int] = None,
+        channel_id: Optional[int] = None,
+        webhook_id: Optional[int] = None,
+        webhook_token: Optional[str] = None,
+    ) -> None:
         self.method = method
-        self.url = path.format(**params)
+        self.url = path.format(
+            guild_id=guild_id,
+            channel_id=channel_id,
+            webhook_id=webhook_id,
+            webhook_token=webhook_token,
+        )
 
         webhook_bucket: Optional[str] = None
         if webhook_id:

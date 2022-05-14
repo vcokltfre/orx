@@ -1,4 +1,5 @@
 from asyncio import Event, Lock, create_task, sleep
+from typing import Any
 
 from orx.proto.http import BucketProto
 
@@ -18,7 +19,7 @@ class Bucket:
         await self._lock.acquire()
         return self
 
-    async def __aexit__(self, exc_type, exc_val, exc_tb) -> None:
+    async def __aexit__(self, *exc: Any) -> None:
         if not self._deferred:
             self._lock.release()
 
@@ -59,5 +60,8 @@ class Ratelimiter:
         self._global.set()
 
     async def set_global_lock(self, unlock_after: float) -> None:
+        if not self._global.is_set():
+            raise RuntimeError("Global lock is already locked.")
+
         self._global.clear()
         create_task(self._unlock_global(unlock_after))

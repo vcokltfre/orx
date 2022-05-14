@@ -1,10 +1,9 @@
 from .client import GatewayClient
-from .event import EventDirection, GatewayEvent
+from .ratelimiter import GatewayRatelimiter
 from .shard import Shard
 
 __all__ = (
     "GatewayClient",
-    "EventDirection",
-    "GatewayEvent",
+    "GatewayRatelimiter",
     "Shard",
 )

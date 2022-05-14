@@ -8,9 +8,6 @@ class Unset:
 
 UNSET = Unset()
 
-JSON = bool | int | str | list["JSON"] | dict[str, "JSON"] | None
-
 T = TypeVar("T", covariant=True)
 
 UnsetOr = Union[T, Unset]
-OptionalUnsetOr = Union[T, Unset, None]

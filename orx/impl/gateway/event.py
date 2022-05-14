@@ -1,24 +1,22 @@
 from dataclasses import dataclass
-from enum import Enum, auto
+from typing import Any, Optional
+
+from discord_typings.gateway import GatewayEvent as GatewayEventType
 
 from orx.proto.gateway import ShardProto
-from orx.utils import JSON, UNSET, UnsetOr
-
-
-class EventDirection(Enum):
-    INCOMING = auto()
-    OUTGOING = auto()
 
 
 @dataclass(frozen=True, slots=True)
 class GatewayEvent:
     shard: ShardProto
-    direction: EventDirection
-    raw: dict[str, JSON]
     op: int
-    d: UnsetOr[JSON] = UNSET
-    s: int | None = None
-    t: str | None = None
+    data: Optional[GatewayEventType] = None
+    s: Optional[int] = None
+    t: Optional[str] = None
+
+    @property
+    def d(self) -> Any:
+        return self.data["d"]  # type: ignore
 
     @property
     def dispatch_name(self) -> str:

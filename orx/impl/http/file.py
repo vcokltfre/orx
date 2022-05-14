@@ -1,5 +1,6 @@
 from io import IOBase
 from os import PathLike, path
+from typing import Any, Optional
 
 
 class File:
@@ -11,8 +12,8 @@ class File:
 
     def __init__(
         self,
-        fp: IOBase | PathLike | str,
-        filename: str = None,
+        fp: IOBase | PathLike[Any] | str,
+        filename: Optional[str] = None,
         spoiler: bool = False,
     ) -> None:
         if isinstance(fp, IOBase):
@@ -35,7 +36,7 @@ class File:
                     if self._handle:
                         self.fp.close()
 
-                    raise ValueError(f"Object given for fp parameter has no name attribute.")
+                    raise ValueError(f"Object given for fp parameter has no 'name' attribute.")
 
                 self.filename: str = fp.name  # type: ignore[attr-defined]
         else:

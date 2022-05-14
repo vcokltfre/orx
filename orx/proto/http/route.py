@@ -1,4 +1,4 @@
-from typing import Protocol
+from typing import Optional, Protocol
 
 
 class RouteProto(Protocol):
@@ -6,5 +6,13 @@ class RouteProto(Protocol):
     method: str
     url: str
 
-    def __init__(self, method: str, path: str, **params: str | int) -> None:
+    def __init__(
+        self,
+        method: str,
+        path: str,
+        guild_id: Optional[int] = None,
+        channel_id: Optional[int] = None,
+        webhook_id: Optional[int] = None,
+        webhook_token: Optional[str] = None,
+    ) -> None:
         ...

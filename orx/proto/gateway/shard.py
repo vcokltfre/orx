@@ -1,10 +1,26 @@
 from asyncio import Event
-from typing import Any, Callable, Coroutine, Protocol, Type
+from typing import Any, Callable, Coroutine, Protocol, Type, Union
 
-from orx.proto.http import ClientProto
-from orx.utils import JSON
+from discord_typings.gateway import (
+    HeartbeatCommand,
+    IdentifyCommand,
+    RequestGuildMembersCommand,
+    ResumeCommand,
+    UpdatePresenceCommand,
+    VoiceUpdateCommand,
+)
 
+from ..http import HTTPClientProto
 from .ratelimiter import GatewayRatelimiterProto
+
+Command = Union[
+    ResumeCommand,
+    IdentifyCommand,
+    HeartbeatCommand,
+    VoiceUpdateCommand,
+    UpdatePresenceCommand,
+    RequestGuildMembersCommand,
+]
 
 
 class ShardProto(Protocol):
@@ -17,18 +33,17 @@ class ShardProto(Protocol):
         self,
         id: int,
         shard_count: int,
-        http: ClientProto,
         token: str,
         intents: int,
         ratelimiter_cls: Type[GatewayRatelimiterProto],
     ) -> None:
         ...
 
-    async def connect(self) -> None:
+    async def connect(self, url: str, http: HTTPClientProto) -> None:
         ...
 
     async def close(self) -> None:
         ...
 
-    async def send(self, data: dict[str, JSON]) -> None:
+    async def send(self, data: Command) -> None:
         ...

@@ -1,6 +1,6 @@
-from typing import Any, Callable, Coroutine, Protocol, Type
+from typing import Any, Callable, Coroutine, Optional, Protocol, Type
 
-from orx.proto.http import ClientProto
+from orx.proto.http import HTTPClientProto
 
 from .ratelimiter import GatewayRatelimiterProto
 from .shard import ShardProto
@@ -13,11 +13,11 @@ class GatewayClientProto(Protocol):
         self,
         token: str,
         intents: int,
-        http: ClientProto,
-        ratelimiter_cls: Type[GatewayRatelimiterProto] = None,
-        shard_cls: Type[ShardProto] = None,
-        shard_ids: list[int] = None,
-        shard_count: int = None,
+        http: HTTPClientProto,
+        ratelimiter_cls: Optional[Type[GatewayRatelimiterProto]] = None,
+        shard_cls: Optional[Type[ShardProto]] = None,
+        shard_ids: Optional[list[int]] = None,
+        shard_count: Optional[int] = None,
     ) -> None:
         ...
 

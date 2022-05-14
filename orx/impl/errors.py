@@ -14,7 +14,7 @@ class HTTPError(OrxError):
     Base class for all HTTP errors.
     """
 
-    def __init__(self, response: ClientResponse, *args) -> None:
+    def __init__(self, response: ClientResponse, *args: object) -> None:
         self.response = response
         self.status = response.status
 
