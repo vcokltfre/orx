@@ -29,9 +29,11 @@ discord-typings = "^0.4.0"
 black = "^22.3.0"
 isort = "^5.10.1"
 taskipy = "^1.10.1"
+markdown2 = "^2.4.3"
 
 [tool.taskipy.tasks]
 lint = "black . && isort --profile black ."
+doc = "python3 autodoc.py"
 
 [tool.black]
 line-length = 120

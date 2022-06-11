@@ -1,0 +1,58 @@
+{
+  "modules": [
+    {
+      "name": "orx.impl.http",
+      "classes": [
+        {
+          "name": "HTTPClient",
+          "functions": [
+            "request",
+            "close",
+            "spawn_websocket"
+          ]
+        },
+        {
+          "name": "File",
+          "functions": [
+            "close",
+            "reset"
+          ]
+        },
+        {
+          "name": "Route",
+          "functions": []
+        }
+      ],
+      "functions": []
+    },
+    {
+      "name": "orx.impl.gateway",
+      "classes": [
+        {
+          "name": "GatewayClient",
+          "functions": [
+            "add_dispatch_hook",
+            "get_shard",
+            "start",
+            "close"
+          ]
+        },
+        {
+          "name": "GatewayRatelimiter",
+          "functions": [
+            "acquire"
+          ]
+        },
+        {
+          "name": "Shard",
+          "functions": [
+            "connect",
+            "send",
+            "close"
+          ]
+        }
+      ],
+      "functions": []
+    }
+  ]
+}

@@ -1,0 +1,215 @@
+
+    <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+    </head>
+    <style>
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+        }
+    </style>
+    <h2>Module <code>orx.impl.http</code></h2>
+
+<h3>Class <code>HTTPClient</code></h3>
+
+<pre><code>The default HTTP client implementation for Orx.
+
+        Args:
+            token (Optional[str], optional): Your bot token. Defaults to None.
+            api_url (Optional[str], optional): The base URL to use for requests. Defaults to "https://discord.com/api/v10".
+            default_headers (Optional[dict[str, str]], optional): The default headers to send on requests. Defaults to {}.
+            max_retries (Optional[int], optional): The maximum number of retries per request. Defaults to 3.
+            ratelimiter (Optional[RatelimiterProto], optional): The ratelimiter class to use for request. Defaults to orx.http.Ratelimiter.
+</code></pre>
+
+<h4>Method <code>HTTPClient.request</code></h4>
+
+<pre><code>Make a request to the Discord API.
+
+        Args:
+            route (RouteProto): The route to request.
+            query_params (Optional[dict[str, str  |  int]], optional): Query parameters to send with the request. Defaults to {}.
+            headers (Optional[dict[str, str]], optional): Headers to send with the request. Defaults to {}.
+            max_retries (Optional[int], optional): The maximum number of retries for this request. Defaults to the HTTP client default.
+            files (UnsetOr[list[File]], optional): Files to send with the request. Defaults to UNSET.
+            json (UnsetOr[Any], optional): JSON data to send with the request. Defaults to UNSET.
+            reason (Optional[str], optional): An audit log reason for this request. Defaults to None.
+
+        Raises:
+            TooManyRequests: A ratelimit was hit that could not be handled (Cloudflare limited).
+            HTTPError: Another 4XX HTTP error was raised.
+            OrxError: After all retries the server still errored.
+
+        Returns:
+            ClientResponse: The response from the API.
+</code></pre>
+
+<h4>Method <code>HTTPClient.close</code></h4>
+
+<pre><code>Close the HTTP client.
+</code></pre>
+
+<h4>Method <code>HTTPClient.spawn_websocket</code></h4>
+
+<pre><code>Spawn a WebSocket connection.
+
+        Args:
+            url (str): The URL to connect to.
+
+        Returns:
+            ClientWebSocketResponse: The open WebSocket connection.
+</code></pre>
+
+<h3>Class <code>File</code></h3>
+
+<pre><code>A File object for use when sending messages.
+
+        Args:
+            fp (IOBase | PathLike[Any] | str): The file.
+            filename (Optional[str], optional): The filename to use on Discord. Defaults to None.
+            spoiler (bool, optional): Whether the file should be spoilered. Defaults to False.
+
+        Raises:
+            ValueError: An IOBase object was given but it was not seekable or readable.
+            ValueError: An IOBase object was given but it had no name attribute to infer a file name.
+</code></pre>
+
+<h4>Method <code>File.close</code></h4>
+
+<pre><code>Close the file.
+</code></pre>
+
+<h4>Method <code>File.reset</code></h4>
+
+<pre><code>Reset the file.
+
+        Args:
+            hard (bool | int, optional): Whether to seek to the start of the file. Defaults to True.
+</code></pre>
+
+<h3>Class <code>Route</code></h3>
+
+<pre><code>Represents a route to a Discord API route/path, with an HTTP verb.
+
+        Args:
+            method (str): The method of the route.
+            path (str): The main route path.
+            guild_id (Optional[int], optional): The guild ID to format the route path with. Defaults to None.
+            channel_id (Optional[int], optional): The channel ID to format the route path with. Defaults to None.
+            webhook_id (Optional[int], optional): The webhook ID to format the route path with. Defaults to None.
+            webhook_token (Optional[str], optional): The webhook token to format the route path with. Defaults to None.
+</code></pre>
+
+<hr />
+
+<h2>Module <code>orx.impl.gateway</code></h2>
+
+<h3>Class <code>GatewayClient</code></h3>
+
+<pre><code>A gateway client to connect to the Discord gateway.
+
+        Args:
+            token (str): The token to connect with.
+            intents (int): The gateway intents to connect with.
+            http (HTTPClientProto): The HTTP client to use for requests.
+            ratelimiter_cls (Optional[Type[GatewayRatelimiterProto]], optional): The ratelimiter class to use for ratelimiting. Defaults to None.
+            shard_cls (Optional[Type[ShardProto]], optional): The shard class to use. Defaults to None.
+            shard_ids (Optional[list[int]], optional): The shard IDs to connect on. Defaults to None.
+            shard_count (Optional[int], optional): The shard count to connect with. Defaults to None.
+
+        Raises:
+            ValueError: shard_ids was set but shard_count was not.
+</code></pre>
+
+<h4>Method <code>GatewayClient.add_dispatch_hook</code></h4>
+
+<pre><code>Add a dispatch hook to be called on gateway events.
+
+        Args:
+            event (str): The event to listen to.
+            hook (Callable[..., Coroutine[Any, Any, None]]): The callback.
+</code></pre>
+
+<h4>Method <code>GatewayClient.get_shard</code></h4>
+
+<pre><code>Get a specific shard.
+
+        Args:
+            id (int): The ID of the shard to get.
+
+        Returns:
+            ShardProto: The shard.
+</code></pre>
+
+<h4>Method <code>GatewayClient.start</code></h4>
+
+<pre><code>Start the connection to the gateway.
+
+        Args:
+            fail_early (bool, optional): Whether to fail if there are insufficient                remaining indentify calls for the number of shards given. Defaults to False.
+            wait (bool, optional): Whether to wait for the client to close before returning. Defaults to True.
+
+        Raises:
+            RuntimeError: There are insufficient remaining identify calls to start the shards.
+            RuntimeError: The shard_count is unset at the time of calling start().
+</code></pre>
+
+<h4>Method <code>GatewayClient.close</code></h4>
+
+<pre><code>Close the gateway client.
+</code></pre>
+
+<h3>Class <code>GatewayRatelimiter</code></h3>
+
+<pre><code>A gateway rate limiter implementation.
+
+        Args:
+            rate (int): The rate at which payloads can be sent.
+            per (int): The interval at which the limit clears.
+</code></pre>
+
+<h4>Method <code>GatewayRatelimiter.acquire</code></h4>
+
+<pre><code>Acquire a ratelimit lock.
+</code></pre>
+
+<h3>Class <code>Shard</code></h3>
+
+<pre><code>A Discord gateay shard representation.
+
+        Args:
+            id (int): The ID of the shard.
+            shard_count (int): The total number of shards connecting.
+            token (str): The token to connect with.
+            intents (int): The intents to connect with.
+            ratelimiter_cls (Type[GatewayRatelimiterProto]): The gateway ratelimiter class.
+</code></pre>
+
+<h4>Method <code>Shard.connect</code></h4>
+
+<pre><code>Connect to the gateway.
+
+        Args:
+            url (str): The URL to connect to.
+            http (HTTPClientProto): The HTTP client to spawn the WebSocket with.
+
+        Raises:
+            RuntimeError: The shard is already connected.
+</code></pre>
+
+<h4>Method <code>Shard.send</code></h4>
+
+<pre><code>Send a command to the gateway.
+
+        Args:
+            data (Command): The command data to send.
+
+        Raises:
+            RuntimeError: The shard is not connected to the gateway.
+</code></pre>
+
+<h4>Method <code>Shard.close</code></h4>
+
+<pre><code>Close the shard's connection to the gateway.
+</code></pre>
