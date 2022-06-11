@@ -1,10 +1,10 @@
 from asyncio import sleep
 from collections import defaultdict
 from dataclasses import dataclass
+from json import dumps
 from typing import Any, Final, Mapping, Optional, Type
 
 from aiohttp import ClientResponse, ClientSession, ClientWebSocketResponse, FormData
-from json import dumps
 
 from orx.impl.errors import (
     BadGateway,
@@ -116,7 +116,7 @@ class HTTPClient:
             await self.__session.close()
 
     async def spawn_websocket(self, url: str, **kwargs: Any) -> ClientWebSocketResponse:
-        return await self._session.ws_connect(url, **kwargs)
+        return await self._session.ws_connect(url, **kwargs)  # type: ignore
 
     async def request(
         self,
@@ -140,7 +140,7 @@ class HTTPClient:
             headers["X-Audit-Log-Reason"] = reason
 
         for attempt in range(max_retries or 1):
-            await sleep(attempt ** 2 * 0.5)
+            await sleep(attempt**2 * 0.5)
 
             data = self._perpare_data(attempt, files, json)
 
