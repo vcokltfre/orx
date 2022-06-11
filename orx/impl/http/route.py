@@ -2,10 +2,6 @@ from typing import Optional
 
 
 class Route:
-    """
-    Represents a route to a Discord API route/path, with an HTTP verb.
-    """
-
     __slots__ = (
         "method",
         "url",
@@ -21,6 +17,17 @@ class Route:
         webhook_id: Optional[int] = None,
         webhook_token: Optional[str] = None,
     ) -> None:
+        """Represents a route to a Discord API route/path, with an HTTP verb.
+
+        Args:
+            method (str): The method of the route.
+            path (str): The main route path.
+            guild_id (Optional[int], optional): The guild ID to format the route path with. Defaults to None.
+            channel_id (Optional[int], optional): The channel ID to format the route path with. Defaults to None.
+            webhook_id (Optional[int], optional): The webhook ID to format the route path with. Defaults to None.
+            webhook_token (Optional[str], optional): The webhook token to format the route path with. Defaults to None.
+        """
+
         self.method = method
         self.url = path.format(
             guild_id=guild_id,

@@ -8,6 +8,8 @@ from orx.proto.gateway import ShardProto
 
 @dataclass(frozen=True, slots=True)
 class GatewayEvent:
+    """A generic gateway event."""
+
     shard: ShardProto
     op: int
     data: Optional[GatewayEventType] = None

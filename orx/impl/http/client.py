@@ -27,7 +27,7 @@ from orx.proto.http import RatelimiterProto, RouteProto
 from .file import File
 from .ratelimiter import Ratelimiter
 
-API_URL: Final[str] = "https://discord.com/api/v9"
+API_URL: Final[str] = "https://discord.com/api/v10"
 MAX_RETRIES: Final[int] = 3
 
 
@@ -73,6 +73,16 @@ class HTTPClient:
         max_retries: Optional[int] = None,
         ratelimiter: Optional[RatelimiterProto] = None,
     ) -> None:
+        """The default HTTP client implementation for Orx.
+
+        Args:
+            token (Optional[str], optional): Your bot token. Defaults to None.
+            api_url (Optional[str], optional): The base URL to use for requests. Defaults to "https://discord.com/api/v10".
+            default_headers (Optional[dict[str, str]], optional): The default headers to send on requests. Defaults to {}.
+            max_retries (Optional[int], optional): The maximum number of retries per request. Defaults to 3.
+            ratelimiter (Optional[RatelimiterProto], optional): The ratelimiter class to use for request. Defaults to orx.http.Ratelimiter.
+        """
+
         self._token = token
         self._api_url = api_url or API_URL
         self._default_headers = default_headers or {}
@@ -112,10 +122,21 @@ class HTTPClient:
         return _RequestData(data, UNSET)
 
     async def close(self) -> None:
+        """Close the HTTP client."""
+
         if self.__session and not self.__session.closed:
             await self.__session.close()
 
     async def spawn_websocket(self, url: str, **kwargs: Any) -> ClientWebSocketResponse:
+        """Spawn a WebSocket connection.
+
+        Args:
+            url (str): The URL to connect to.
+
+        Returns:
+            ClientWebSocketResponse: The open WebSocket connection.
+        """
+
         return await self._session.ws_connect(url, **kwargs)  # type: ignore
 
     async def request(
@@ -129,6 +150,26 @@ class HTTPClient:
         json: UnsetOr[Any] = UNSET,
         reason: Optional[str] = None,
     ) -> ClientResponse:
+        """Make a request to the Discord API.
+
+        Args:
+            route (RouteProto): The route to request.
+            query_params (Optional[dict[str, str  |  int]], optional): Query parameters to send with the request. Defaults to {}.
+            headers (Optional[dict[str, str]], optional): Headers to send with the request. Defaults to {}.
+            max_retries (Optional[int], optional): The maximum number of retries for this request. Defaults to the HTTP client default.
+            files (UnsetOr[list[File]], optional): Files to send with the request. Defaults to UNSET.
+            json (UnsetOr[Any], optional): JSON data to send with the request. Defaults to UNSET.
+            reason (Optional[str], optional): An audit log reason for this request. Defaults to None.
+
+        Raises:
+            TooManyRequests: A ratelimit was hit that could not be handled (Cloudflare limited).
+            HTTPError: Another 4XX HTTP error was raised.
+            OrxError: After all retries the server still errored.
+
+        Returns:
+            ClientResponse: The response from the API.
+        """
+
         query_params = query_params or {}
         headers = headers or {}
         max_retries = max_retries or self._max_retries
@@ -140,7 +181,7 @@ class HTTPClient:
             headers["X-Audit-Log-Reason"] = reason
 
         for attempt in range(max_retries or 1):
-            await sleep(attempt**2 * 0.5)
+            await sleep(attempt ** 2 * 0.5)
 
             data = self._perpare_data(attempt, files, json)
 

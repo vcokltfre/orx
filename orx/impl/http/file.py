@@ -4,11 +4,12 @@ from typing import Any, Optional
 
 
 class File:
-    """
-    A File object for use when sending messages.
-    """
-
-    __slots__ = ("fp", "_handle", "filename", "_original_close")
+    __slots__ = (
+        "fp",
+        "_handle",
+        "filename",
+        "_original_close",
+    )
 
     def __init__(
         self,
@@ -16,6 +17,18 @@ class File:
         filename: Optional[str] = None,
         spoiler: bool = False,
     ) -> None:
+        """A File object for use when sending messages.
+
+        Args:
+            fp (IOBase | PathLike[Any] | str): The file.
+            filename (Optional[str], optional): The filename to use on Discord. Defaults to None.
+            spoiler (bool, optional): Whether the file should be spoilered. Defaults to False.
+
+        Raises:
+            ValueError: An IOBase object was given but it was not seekable or readable.
+            ValueError: An IOBase object was given but it had no name attribute to infer a file name.
+        """
+
         if isinstance(fp, IOBase):
             if not (fp.seekable() and fp.readable()):
                 raise ValueError(f"IOBase object {fp!r} must be seekable and readable.")
@@ -51,10 +64,18 @@ class File:
         self.fp.close = lambda: None
 
     def close(self) -> None:
+        """Close the file."""
+
         self.fp.close = self._original_close
         if self._handle:
             self.fp.close()
 
     def reset(self, hard: bool | int = True) -> None:
+        """Reset the file.
+
+        Args:
+            hard (bool | int, optional): Whether to seek to the start of the file. Defaults to True.
+        """
+
         if hard:
             self.fp.seek(0)

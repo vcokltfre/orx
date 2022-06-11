@@ -65,6 +65,16 @@ class Shard:
         intents: int,
         ratelimiter_cls: Type[GatewayRatelimiterProto],
     ) -> None:
+        """A Discord gateay shard representation.
+
+        Args:
+            id (int): The ID of the shard.
+            shard_count (int): The total number of shards connecting.
+            token (str): The token to connect with.
+            intents (int): The intents to connect with.
+            ratelimiter_cls (Type[GatewayRatelimiterProto]): The gateway ratelimiter class.
+        """
+
         self.id = id
         self.callbacks: dict[str, list[Callable[..., Coroutine[Any, Any, None]]]] = {}
 
@@ -206,6 +216,16 @@ class Shard:
         await self._handle_disconnect(self._socket.close_code or 1000)
 
     async def connect(self, url: str, http: HTTPClientProto) -> None:
+        """Connect to the gateway.
+
+        Args:
+            url (str): The URL to connect to.
+            http (HTTPClientProto): The HTTP client to spawn the WebSocket with.
+
+        Raises:
+            RuntimeError: The shard is already connected.
+        """
+
         if self._socket and not self._socket.closed:
             raise RuntimeError("Shard is already connected")
 
@@ -223,6 +243,8 @@ class Shard:
             return
 
     async def close(self) -> None:
+        """Close the shard's connection to the gateway."""
+
         self._closing = True
 
         if self._socket and not self._socket.closed:
@@ -232,6 +254,15 @@ class Shard:
             self._pacemaker.cancel()
 
     async def send(self, data: Command) -> None:
+        """Send a command to the gateway.
+
+        Args:
+            data (Command): The command data to send.
+
+        Raises:
+            RuntimeError: The shard is not connected to the gateway.
+        """
+
         if not self._socket or self._socket.closed:
             raise RuntimeError("Shard is not connected")
 

@@ -11,6 +11,8 @@ class GatewayRatelimiter:
         self._lock.release()
 
     async def acquire(self) -> None:
+        """Acquire a ratelimit lock."""
+
         await self._lock.acquire()
 
         create_task(self._release(self._per))

@@ -9,17 +9,17 @@ from .ratelimiter import GatewayRatelimiter
 from .shard import Shard
 
 
-class SessionStartLimit(TypedDict):
+class _SessionStartLimit(TypedDict):
     total: int
     remaining: int
     reset_after: int
     max_concurrency: int
 
 
-class GetGatewayBot(TypedDict):
+class _GetGatewayBot(TypedDict):
     url: str
     shards: int
-    session_start_limit: SessionStartLimit
+    session_start_limit: _SessionStartLimit
 
 
 class GatewayClient:
@@ -47,6 +47,21 @@ class GatewayClient:
         shard_ids: Optional[list[int]] = None,
         shard_count: Optional[int] = None,
     ) -> None:
+        """A gateway client to connect to the Discord gateway.
+
+        Args:
+            token (str): The token to connect with.
+            intents (int): The gateway intents to connect with.
+            http (HTTPClientProto): The HTTP client to use for requests.
+            ratelimiter_cls (Optional[Type[GatewayRatelimiterProto]], optional): The ratelimiter class to use for ratelimiting. Defaults to None.
+            shard_cls (Optional[Type[ShardProto]], optional): The shard class to use. Defaults to None.
+            shard_ids (Optional[list[int]], optional): The shard IDs to connect on. Defaults to None.
+            shard_count (Optional[int], optional): The shard count to connect with. Defaults to None.
+
+        Raises:
+            ValueError: shard_ids was set but shard_count was not.
+        """
+
         self.shards: dict[int, ShardProto] = {}
         self._shard_tasks: dict[int, Task[None]] = {}
 
@@ -67,7 +82,7 @@ class GatewayClient:
 
         self._done = Future[None]()
 
-    async def _get_gateway(self) -> GetGatewayBot:
+    async def _get_gateway(self) -> _GetGatewayBot:
         route = Route("GET", "/gateway/bot")
         response = await self._http.request(route)
 
@@ -76,15 +91,43 @@ class GatewayClient:
         return data
 
     def add_dispatch_hook(self, event: str, hook: Callable[..., Coroutine[Any, Any, None]]) -> None:
+        """Add a dispatch hook to be called on gateway events.
+
+        Args:
+            event (str): The event to listen to.
+            hook (Callable[..., Coroutine[Any, Any, None]]): The callback.
+        """
+
         if event not in self._hooks:
             self._hooks[event] = [hook]
             return
         self._hooks[event].append(hook)
 
     def get_shard(self, id: int) -> ShardProto:
+        """Get a specific shard.
+
+        Args:
+            id (int): The ID of the shard to get.
+
+        Returns:
+            ShardProto: The shard.
+        """
+
         return self.shards[id]
 
     async def start(self, *, fail_early: bool = False, wait: bool = True) -> None:
+        """Start the connection to the gateway.
+
+        Args:
+            fail_early (bool, optional): Whether to fail if there are insufficient\
+                remaining indentify calls for the number of shards given. Defaults to False.
+            wait (bool, optional): Whether to wait for the client to close before returning. Defaults to True.
+
+        Raises:
+            RuntimeError: There are insufficient remaining identify calls to start the shards.
+            RuntimeError: The shard_count is unset at the time of calling start().
+        """
+
         gateway = await self._get_gateway()
         session_limits = gateway["session_start_limit"]
 
@@ -129,6 +172,8 @@ class GatewayClient:
             await self._done
 
     async def close(self) -> None:
+        """Close the gateway client."""
+
         for shard in self.shards.values():
             await shard.close()
 
