@@ -40,3 +40,6 @@ class HTTPClientProto(Protocol):
         reason: Optional[str] = None,
     ) -> ClientResponse:
         ...
+
+    async def close(self) -> None:
+        ...

@@ -1,4 +1,4 @@
-from typing import Any, Protocol
+from typing import Protocol, Type
 
 
 class BucketProto(Protocol):
@@ -8,7 +8,7 @@ class BucketProto(Protocol):
     async def __aenter__(self) -> "BucketProto":
         ...
 
-    async def __aexit__(self, *exc: Any) -> None:
+    async def __aexit__(self, exc_type: Type[BaseException], exc_val: BaseException, exc_tb: BaseException) -> None:
         ...
 
     async def set_rate(self, rate: int, per: int) -> None:

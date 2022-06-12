@@ -27,7 +27,7 @@ class GatewayClientProto(Protocol):
     def get_shard(self, id: int) -> ShardProto:
         ...
 
-    async def start(self) -> None:
+    async def start(self, *, fail_early: bool = False, wait: bool = True) -> None:
         ...
 
     async def close(self) -> None:

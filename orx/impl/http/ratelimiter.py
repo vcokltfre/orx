@@ -1,5 +1,5 @@
 from asyncio import Event, Lock, create_task, sleep
-from typing import Any
+from typing import Type
 
 from orx.proto.http import BucketProto
 
@@ -31,7 +31,7 @@ class Bucket:
         await self._lock.acquire()
         return self
 
-    async def __aexit__(self, *exc: Any) -> None:
+    async def __aexit__(self, exc_type: Type[BaseException], exc_val: BaseException, exc_tb: BaseException) -> None:
         if not self._deferred:
             self._lock.release()
 

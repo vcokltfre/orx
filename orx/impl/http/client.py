@@ -94,7 +94,7 @@ class HTTPClient:
     async def __aenter__(self) -> "HTTPClient":
         return self
 
-    async def __aexit__(self, *exc: Any) -> None:
+    async def __aexit__(self, exc_type: Type[BaseException], exc_val: BaseException, exc_tb: BaseException) -> None:
         await self.close()
 
     @property
