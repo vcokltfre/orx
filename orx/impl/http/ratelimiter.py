@@ -5,7 +5,12 @@ from orx.proto.http import BucketProto
 
 
 class Bucket:
-    __slots__ = ("_rate", "_per", "_lock", "_deferred")
+    __slots__ = (
+        "_rate",
+        "_per",
+        "_lock",
+        "_deferred",
+    )
 
     def __init__(self, rate: int, per: int) -> None:
         """A ratelimiting bucket.

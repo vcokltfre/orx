@@ -2,6 +2,11 @@ from asyncio import Semaphore, create_task, sleep
 
 
 class GatewayRatelimiter:
+    __slots__ = (
+        "_per",
+        "_lock",
+    )
+
     def __init__(self, rate: int, per: int) -> None:
         """A gateway rate limiter implementation.
 

@@ -181,7 +181,7 @@ class HTTPClient:
             headers["X-Audit-Log-Reason"] = reason
 
         for attempt in range(max_retries or 1):
-            await sleep(attempt ** 2 * 0.5)
+            await sleep(attempt**2 * 0.5)
 
             data = self._perpare_data(attempt, files, json)
 
