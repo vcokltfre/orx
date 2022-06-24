@@ -99,7 +99,7 @@ class Ratelimiter:
         """Set the global lock after hitting the global limit.
 
         Args:
-            unlock_after (float): After gow many seconds to unlock the global lock.
+            unlock_after (float): After how many seconds to unlock the global lock.
 
         Raises:
             RuntimeError: The global lock is already locked.
