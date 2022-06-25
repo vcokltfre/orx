@@ -105,7 +105,7 @@ class HTTPClient:
         return self.__session
 
     @staticmethod
-    def _perpare_data(attempt: int, files: UnsetOr[list[File]] = UNSET, json: UnsetOr[Any] = UNSET) -> _RequestData:
+    def _prepare_data(attempt: int, files: UnsetOr[list[File]] = UNSET, json: UnsetOr[Any] = UNSET) -> _RequestData:
         if not files:
             return _RequestData(None, json)
 
@@ -183,7 +183,7 @@ class HTTPClient:
         for attempt in range(max_retries or 1):
             await sleep(attempt**2 * 0.5)
 
-            data = self._perpare_data(attempt, files, json)
+            data = self._prepare_data(attempt, files, json)
 
             kwargs: dict[str, Any] = {}
 
